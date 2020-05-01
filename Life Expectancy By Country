@@ -1,0 +1,45 @@
+import codecademylib3_seaborn
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_csv("country_data.csv")
+print(data.head())
+life_expectancy = data["Life Expectancy"]
+print(life_expectancy)
+life_expectancy_quartiles = np.quantile(life_expectancy,[0.25,0.5,0.75])
+print(life_expectancy_quartiles)
+
+plt.hist(life_expectancy)
+plt.show()
+
+gdp=data["GDP"]
+gdp_median=np.median(gdp)
+gdp_max=np.max(gdp)
+gdp_min=np.min(gdp)
+gdp_variable=np.var(gdp)
+print(gdp_median)
+print(gdp_variable)
+print(gdp_max)
+print(gdp_min)
+gdp_median2= np.quantile(gdp,0.5)
+print(gdp_median2)
+low_gdp = data[data['GDP']<= gdp_median2]
+high_gdp = data[data['GDP']>gdp_median2]
+low_gdp_quartiles = np.quantile(low_gdp["Life Expectancy"], [0.25,0.5,0.75])
+high_gdp_quartiles= np.quantile(high_gdp["Life Expectancy"],[0.25,0.5,0.75])
+
+
+print(low_gdp_quartiles)
+#[56.3375  64.34375 71.7375 ]
+print(high_gdp_quartiles)
+#[72.965625 75.15625  80.521875]
+
+
+#By looking at the quantiles, you should get a sense of the spread and central tendency of these two datasets.  
+
+plt.hist(high_gdp["Life Expectancy"], alpha =0.5, label = "High GDP")
+plt.hist(low_gdp["Life Expectancy"], alpha =0.5 , label = "Low GDP")
+plt.legend()
+plt.show()
+
