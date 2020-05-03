@@ -1,0 +1,48 @@
+import familiar 
+from scipy import stats
+from scipy.stats import ttest_1samp
+import numpy as np
+from scipy.stats import ttest_ind
+from scipy.stats import chi2_contingency
+
+#now the first thing we want to show is that our most basic package, the Vein Pack, actually has a significant impact on the subscribers. It would be a marketing goldmine if we can show that subscribers to the Vein Pack live longer than other people
+
+vein_pack_lifespans= familiar.lifespans(package='vein')
+print(vein_pack_lifespans)
+average_vein_pack= np.mean(vein_pack_lifespans)
+print(average_vein_pack)
+
+#average life expectancy of veinpack is 76
+
+average_life_expectancy= 71
+
+#Now use the 1-Sample T-Test to compare vein_pack_lifespans to the average life expectancy 71. Save the result into a variable called vein_pack_test.
+
+vein_pack_test,pval= ttest_1samp(vein_pack_lifespans, 71)
+print(pval)
+
+if(pval<=0.05):
+  print("test is significant")
+else:
+    print("test is not significant")
+
+
+artery_pack_lifespans=familiar.lifespans(package='artery')
+
+
+package_comparison_results= ttest_ind(vein_pack_lifespans, artery_pack_lifespans)
+if(package_comparison_results.pvalue < 0.05):
+  print "the Artery Package guarantees even stronger results!"
+else: 
+  print "the Artery Package is also a great product!"
+
+iron_contigency_table= familiar.iron_counts_for_package()
+
+_, iron_pvalue, _,_=chi2_contingency(iron_contigency_table)
+print(iron_pvalue)
+
+if (iron_pvalue< 0.05 ):
+  print "The Artery Package is Proven to Make you Healthier"
+else:
+  print "while we can't say the artery package will help you, i bet it's nice!"
+
