@@ -1,0 +1,34 @@
+import noshmishmosh
+import numpy as np
+
+baseline=500
+minimum_detectable_effect=20
+statistical_significance= 85
+
+all_visitors= noshmishmosh.customer_visits
+print(len(all_visitors))
+
+paying_visitors=noshmishmosh.purchasing_customers
+print(len(paying_visitors))
+
+conversion_rate=(len(all_visitors)-len(paying_visitors))/len(paying_visitors)
+print(conversion_rate)
+
+baseline_percent= 100*len(paying_visitors)/len(all_visitors)
+print(baseline_percent)
+
+
+payment_history= noshmishmosh.money_spent
+average_payment= np.mean(payment_history)
+print(average_payment)
+
+new_customers_needed= np.ceil(1240/average_payment)
+
+percentage_point_increase= (new_customers_needed *100.0)/len(all_visitors)
+print(percentage_point_increase)
+
+minimum_detectable_effect= 100* percentage_point_increase/baseline_percent
+print(minimum_detectable_effect)
+
+
+ab_sample_size=170
